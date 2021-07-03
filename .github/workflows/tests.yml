@@ -24,4 +24,4 @@ jobs:
         poetry install
     -
       name: pytest
-      run: python3 -m pytest -vv
+      run: poetry run pytest -vv
