@@ -39,9 +39,9 @@ indent-string = "    "
 extension-pkg-whitelist = "pydantic"
 
 [tool.poetry]
-name = "Tiny Userpic"
+name = "tiny-userpic"
 version = "0.1.0"
-description = ""
+description = "A small Python module for userpics creation"
 authors = ["Aleksandr Shpak <shpaker@gmail.com>"]
 packages = [
   { include = "userpic" },
