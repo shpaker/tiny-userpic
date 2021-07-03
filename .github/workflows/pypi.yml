@@ -27,4 +27,6 @@ jobs:
         run: poetry build
       -
         name: publish
-        run: poetry publish
+        run: |
+          poetry config http-basic.pypi ${{ secrets.PYPI_LOGIN }} ${{ secrets.PYPI_PASS }}
+          poetry publish
