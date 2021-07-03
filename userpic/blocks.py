@@ -24,16 +24,14 @@ def reverse_block(
 
 
 def concatenate_blocks(
-    left: List[List[bool]],
-    spacer: List[List[bool]],
-    right: List[List[bool]],
+    *blocks: List[List[bool]],
 ) -> List[List[bool]]:
-    result = list()
-    for i, left_row in enumerate(left):
-        right_row = right[i]
-        spacer_row = spacer[i]
-        line = [*left_row, *spacer_row, *right_row]
-        result.append(line)
+    result: List[List[bool]] = list()
+    for block in blocks:
+        for i, row in enumerate(block):
+            if len(result) - 1 < i:
+                result.append(list())
+            result[i] += row
     return result
 
 

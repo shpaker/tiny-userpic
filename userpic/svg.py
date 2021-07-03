@@ -1,7 +1,10 @@
-from typing import List, Optional
+from typing import List
 
 SVG_WRAPPER = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns="<http://www.w3.org/2000/svg>" viewBox="0, 0, {width}, {height}">
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+    "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg  version="1.1"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0, 0, {width}, {height}">
 {rects}
 </svg>
 """
@@ -13,14 +16,15 @@ SVG_RECT_TAG = (
 def make_svg_cell(
     x: int,
     y: int,
-    offset: int,
     size: int,
-    color: Optional[str],
+    offset: int,
+    color: str,
 ) -> str:
     return SVG_RECT_TAG.format(
         x=x * size + offset,
         y=y * size + offset,
-        size=size,
+        width=size,
+        height=size,
         color=color,
     )
 
@@ -29,8 +33,8 @@ def make_svg_data(
     data: List[List[bool]],
     cell_size: int,
     offset: int,
-    first_color: Optional[str],
-    second_color: Optional[str],
+    first_color: str,
+    second_color: str,
 ) -> bytes:
     box_size = len(data) * cell_size + 2 * offset
     box = make_svg_cell(
@@ -54,8 +58,9 @@ def make_svg_data(
             )
             rects.append(rect)
     svg_xml = SVG_WRAPPER.format(
-        rects="\\n".join(rects),
-        size=box_size,
+        rects="\n".join(rects),
+        width=box_size,
+        height=box_size,
         color=first_color,
     )
     return svg_xml.encode()
