@@ -20,6 +20,7 @@ jobs:
       -
         name: Install dependencies
         run: |
+          sudo apt-get install libmagic1
           python -m pip install poetry
           poetry install
       -
