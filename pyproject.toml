@@ -39,10 +39,10 @@ indent-string = "    "
 extension-pkg-whitelist = "pydantic"
 
 [tool.poetry]
-name = "tiny-userpic"
+name = "Tiny Userpic"
 version = "0.1.0"
 description = ""
-authors = ["shpaker <shpaker@gmail.com>"]
+authors = ["Aleksandr Shpak <shpaker@gmail.com>"]
 packages = [
   { include = "userpic" },
 ]
@@ -60,6 +60,7 @@ flake8 = "^3.9.2"
 pylint = "^2.9.3"
 mypy = "^0.910"
 pytest = "^6.2.4"
+python-magic-bin = "^0.4.14"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

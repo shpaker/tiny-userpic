@@ -1,0 +1,36 @@
+name: Lint
+
+on:
+  pull_request:
+    branches: [ main ]
+  release:
+    types: [ published ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        uses: actions/checkout@v2
+      -
+        name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      -
+        name: Install dependencies
+        run: |
+          python -m pip install poetry
+          poetry install
+      -
+        name: install hooks
+        run: pre-commit install-hooks
+      -
+        name: flake8
+        run: pre-commit run flake8 --all-files --show-diff-on-failure
+      -
+        name: pylint
+        run: pre-commit run pylint --all-files --show-diff-on-failure
+      -
+        name: mypy
+        run: pre-commit run mypy --all-files --show-diff-on-failure
