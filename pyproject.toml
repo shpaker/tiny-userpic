@@ -43,6 +43,9 @@ name = "tiny-userpic"
 version = "0.1.1"
 description = "A small Python module for userpics creation"
 authors = ["Aleksandr Shpak <shpaker@gmail.com>"]
+readme = "readme.md"
+homepage = "https://github.com/shpaker/tiny-userpic"
+repository = "https://github.com/shpaker/tiny-userpic"
 packages = [
   { include = "userpic" },
 ]
