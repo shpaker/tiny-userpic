@@ -1,10 +1,14 @@
 from enum import Enum
 from typing import Optional, Union
 
-from cairosvg import svg2png
 from userpic.blocks import generate_data
 from userpic.svg import make_svg_data
-from userpic.tools import preferred_colors
+from userpic.utils import preferred_colors
+
+try:
+    from cairosvg import svg2png
+except ImportError:
+    pass
 
 
 class DataFormats(str, Enum):

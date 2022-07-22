@@ -1,8 +1,9 @@
-name: Test
+name: tests
 
 on:
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   tests:
@@ -11,23 +12,21 @@ jobs:
       SOURCES_DIR: sources
     strategy:
       matrix:
-        python-version:
+        PYTHON-VERSION:
           - "3.7"
           - "3.8"
           - "3.9"
+          - "3.10"
     steps:
       -
-        name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
-            python-version: ${{ matrix.python-version }}
+            python-version: ${{ matrix.PYTHON-VERSION }}
       -
         uses: actions/checkout@v2
       -
-        name: Install dependencies
         run: |
           python -m pip install poetry
-          poetry install
+          poetry install --extras cairo
       -
-        name: pytest
         run: poetry run pytest -vv
