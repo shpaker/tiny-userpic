@@ -1,6 +1,5 @@
 from collections.abc import Generator
 from random import getrandbits
-from typing import Union
 
 from PIL import ImageDraw
 from PIL.Image import Image, _check_size
@@ -71,8 +70,8 @@ def make_userpic_image(
     mode: str,
     image_size: tuple[int, int] | list[int],
     padding: tuple[int, int] | list[int] = (0, 0),
-    background: Union[float, tuple[int, ...], str] = 'white',
-    foreground: Union[float, tuple[int, ...], str] = 'black',
+    background: float | tuple[int, ...] | str = 'white',
+    foreground: float | tuple[int, ...] | str = 'black',
 ) -> Image:
     image = make_image(mode=mode, size=image_size, color=background)
     draw = ImageDraw.Draw(image)
