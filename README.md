@@ -1,4 +1,4 @@
-# Tiny userpic generatir
+# 🖼️ Github-like userpics generator
 
 Oversimplified Github-like userpics generation python library
 
