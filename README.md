@@ -1,14 +1,12 @@
-# 🖼️ Github-like userpics generator
+# Github-like userpic (avatar) generator
 
-Oversimplified Github-like userpics generation python library
+Oversimplified Github-like userpic (avatar) generator
 
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![PyPI](https://img.shields.io/pypi/v/tiny-userpic.svg)](https://pypi.python.org/pypi/tiny-userpic)
 [![PyPI](https://img.shields.io/pypi/dm/tiny-userpic.svg)](https://pypi.python.org/pypi/tiny-userpic)
 
-## Getting Started
-
-## Installing
+## Install from PyPI
 
 Library can be installed using pip:
 
@@ -16,23 +14,48 @@ Library can be installed using pip:
 pip install tiny-userpic
 ```
 
-## Usage
+## Generate PIL image
 
 ```python
-from userpic import make_userpic_image, make_userpic_svg
+from PIL.Image import Image
+
+from userpic import make_userpic_image
 
 # make PIL Image object
-image = make_userpic_image(
+image: Image = make_userpic_image(
     size=(7, 5),
     padding=(20, 10),
-    mode="RGBA",
+    mode='RGBA',
     image_size=(300, 600),
+    background='white',
+    foreground='black',
 )
+
 # save as JPEG file
-with open("output.jpeg", "wb") as fp:
+with open('output.jpeg', 'wb') as fp:
     image.save(fp)
 ```
 
-### Results:
+## Generate SVG data
+
+```python
+
+from userpic import make_userpic_svg
+
+# make PIL Image object
+image: str = make_userpic_svg(
+  size=(7, 5),
+  padding=(20, 10),
+  image_size=(300, 600),
+  background='white',
+  foreground='black',
+)
+
+# save as SVG file
+with open('output.svg', 'w') as fp:
+  fp.write(image)
+```
+
+## The result should look something like this
 
 ![alt text](example.png)

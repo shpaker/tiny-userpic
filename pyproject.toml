@@ -1,7 +1,7 @@
 [project]
 name = "tiny-userpic"
 version = "0.0.0"
-description = "Oversimplified Github-like userpics generation python library"
+description = "Oversimplified Github-like userpic (avatar) generator"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
@@ -13,7 +13,6 @@ authors = [
 ]
 classifiers = [
   "Topic :: Software Development :: Libraries :: Python Modules",
-  "Topic :: Internet :: Proxy Servers",
   "Development Status :: 4 - Beta",
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.10",
