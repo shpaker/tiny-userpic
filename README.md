@@ -26,7 +26,7 @@ image: Image = make_userpic_image(
     size=(7, 5),
     padding=(20, 10),
     mode='RGBA',
-    image_size=(300, 600),
+    image_size=(300, 300),
     background='white',
     foreground='black',
 )
@@ -42,11 +42,11 @@ with open('output.jpeg', 'wb') as fp:
 
 from userpic import make_userpic_svg
 
-# make PIL Image object
+# make string data
 image: str = make_userpic_svg(
   size=(7, 5),
   padding=(20, 10),
-  image_size=(300, 600),
+  image_size=(300, 300),
   background='white',
   foreground='black',
 )
