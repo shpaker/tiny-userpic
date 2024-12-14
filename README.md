@@ -25,7 +25,7 @@ from userpic import make_userpic_image
 image: Image = make_userpic_image(
     size=(7, 5),
     padding=(20, 10),
-    mode='RGBA',
+    mode='RGB',
     image_size=(300, 300),
     background='white',
     foreground='black',
