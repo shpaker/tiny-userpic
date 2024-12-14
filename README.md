@@ -58,4 +58,4 @@ with open('output.svg', 'w') as fp:
 
 ## The result should look something like this
 
-![alt text](example.png)
+![Awesome genearted userpic!](example.png)
