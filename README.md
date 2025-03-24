@@ -1,4 +1,4 @@
-# tiny-userpic
+# Github-like Userpic (Avatar) Generator
 
 Oversimplified Github-like userpic (avatar) generator.
 
