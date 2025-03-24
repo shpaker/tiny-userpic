@@ -36,6 +36,7 @@ build-backend = "hatchling.build"
 [dependency-groups]
 dev = [
     "mypy>=1.13.0",
+    "pytest>=8.3.5",
     "ruff>=0.8.2",
 ]
 
@@ -47,6 +48,7 @@ exclude = [
 ]
 lint.ignore = [
   "PLR0913", # Too many arguments to function call
+  "S311",    # Standard pseudo-random generators are not suitable for cryptographic purposes
 ]
 lint.flake8-tidy-imports.ban-relative-imports = "all"
 lint.mccabe.max-complexity = 20
