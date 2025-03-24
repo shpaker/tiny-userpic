@@ -1,4 +1,4 @@
-# Github-like Userpic (Avatar) Generator
+# tiny-userpic
 
 Oversimplified Github-like userpic (avatar) generator.
 
@@ -6,58 +6,62 @@ Oversimplified Github-like userpic (avatar) generator.
 [![PyPI](https://img.shields.io/pypi/v/tiny-userpic.svg)](https://pypi.python.org/pypi/tiny-userpic)
 [![PyPI](https://img.shields.io/pypi/dm/tiny-userpic.svg)](https://pypi.python.org/pypi/tiny-userpic)
 
-## Installation
+## Features
 
-Get started by installing the library via pip:
+- Generate unique avatars from text input (email, username, etc.)
+- Create both PIL Image and SVG outputs
+- Customizable size, colors, and padding
+- Deterministic output (same input always produces the same avatar)
+
+## Installation
 
 ```bash
 pip install tiny-userpic
 ```
 
-## Create a PIL Image
+## Usage
 
 ```python
-from PIL.Image import Image
+from tiny_userpic import make_userpic_image_from_string, make_userpic_svg_from_string
 
-from userpic import make_userpic_image
+# Generate avatar from email
+email = "user@example.com"
 
-# Generate a PIL Image object
-image: Image = make_userpic_image(
-    size=(7, 5),
-    padding=(20, 10),
-    mode='RGB',
-    image_size=(300, 300),
-    background='white',
-    foreground='black',
+# As PNG image
+image = make_userpic_image_from_string(
+    text=email,
+    size=(7, 5),          # Pattern size (width, height)
+    image_size=(300, 300), # Output image size
+    background="white",    # Background color
+    foreground="black"     # Foreground color
 )
+image.save("avatar.png")
 
-# save as JPEG file
-with open('output.jpeg', 'wb') as fp:
-    image.save(fp)
+# As SVG
+svg = make_userpic_svg_from_string(
+    text=email,
+    size=(7, 5),
+    image_size=(300, 300),
+    background="white",
+    foreground="black"
+)
+with open("avatar.svg", "w") as f:
+    f.write(svg)
 ```
 
-## Create SVG Data
+## Examples
 
-```python
+### Basic
+![Basic example](examples/basic.png)
 
-from userpic import make_userpic_svg
+### Colored
+![Colored example](examples/colored.png)
 
-# Generate SVG string data
-image: str = make_userpic_svg(
-    size=(7, 5),
-    padding=(20, 10),
-    image_size=(300, 300),
-    background='white',
-    foreground='black',
-)
+### Transparent
+![Transparent example](examples/transparent.png)
 
-# save as SVG file
-with open('output.svg', 'w') as fp:
-  fp.write(image)
-```
+### Small
+![Small example](examples/small.png)
 
-## Example Output
-
-Check out the awesome userpic you can generate:
-
-![Awesome generated userpic!](example.png)
+### Large
+![Large example](examples/large.png)
