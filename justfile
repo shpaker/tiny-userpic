@@ -16,12 +16,12 @@ tests:
     uv run pytest test_userpic.py
 
 
-# Генерируем изображения с разными параметрами
+# Generate images with different parameters
 examples:
     #!/usr/bin/env bash
     .venv/bin/python -c '
     from userpic import make_userpic_image
-    # Базовое черно-белое изображение
+    # Basic black and white image
     make_userpic_image(
         size=(7, 5),
         mode="RGB",
@@ -31,7 +31,7 @@ examples:
         foreground="black"
     ).save("examples/basic.png")
 
-    # Цветное изображение
+    # Colored image
     make_userpic_image(
         size=(7, 5),
         mode="RGB",
@@ -41,7 +41,7 @@ examples:
         foreground="#2ecc71"
     ).save("examples/colored.png")
 
-    # Изображение с прозрачным фоном
+    # Image with transparent background
     make_userpic_image(
         size=(7, 5),
         mode="RGBA",
@@ -51,7 +51,7 @@ examples:
         foreground=(0, 0, 128, 255)
     ).save("examples/transparent.png")
 
-    # Изображение с большим размером паттерна
+    # Image with large pattern size
     make_userpic_image(
         size=(12, 12),
         mode="RGB",
@@ -61,7 +61,7 @@ examples:
         foreground="#e74c3c"
     ).save("examples/large.png")
 
-    # Изображение с маленьким размером паттерна
+    # Image with small pattern size
     make_userpic_image(
         size=(5, 5),
         mode="RGB",
@@ -70,4 +70,25 @@ examples:
         background="white",
         foreground="#f1c40f"
     ).save("examples/small.png")
+
+    # Random image
+    make_userpic_image(
+        size=(7, 5),
+        mode="RGB",
+        image_size=(300, 300),
+        padding=(20, 20),
+        background="white",
+        foreground="#9b59b6"
+    ).save("examples/random.png")
+
+    # Image with fixed seed
+    make_userpic_image(
+        size=(7, 5),
+        mode="RGB",
+        image_size=(300, 300),
+        padding=(20, 20),
+        background="white",
+        foreground="#1abc9c",
+        seed=42
+    ).save("examples/seeded.png")
     '
