@@ -15,6 +15,16 @@ fix:
 tests:
     uv run pytest
 
+# Bump the version and the changelog from the conventional commits since the last tag
+bump:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    previous="$(uv run cz version --project)"
+    uv run cz bump --changelog --files-only --yes
+    version="$(uv run cz version --project)"
+    git add CHANGELOG.md pyproject.toml userpic.py
+    git commit -m "bump: version ${previous} → ${version}"
+
 # Generate the images used in the readme
 examples:
     #!/usr/bin/env bash
