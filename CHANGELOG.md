@@ -3,8 +3,9 @@
 All notable changes to this project are documented in this file.
 
 Entries from 1.0.0 onwards are generated from [conventional commits](https://www.conventionalcommits.org/)
-by [commitizen](https://commitizen-tools.github.io/commitizen/); earlier releases predate that
-convention and are summarised by hand.
+by [commitizen](https://commitizen-tools.github.io/commitizen/): run `just bump` in the pull request
+to update the version and this file, and the release workflow tags and publishes it once the pull
+request lands on `main`. Earlier releases predate that convention and are summarised by hand.
 
 ## 1.0.0 (2026-08-22)
 
