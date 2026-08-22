@@ -1,0 +1,94 @@
+---
+name: 🚀 release
+
+on:
+  push:
+    branches: [ main ]
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      UV_PYTHON: "3.13"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: extractions/setup-just@v2
+      - uses: astral-sh/setup-uv@v4
+      - run: uv python install "${UV_PYTHON}"
+      - run: uv sync --all-extras --dev
+      - run: just lint
+      - run: just tests
+
+  bump:
+    needs: check
+    if: "!startsWith(github.event.head_commit.message, 'bump:')"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      version: ${{ steps.bump.outputs.version }}
+    env:
+      UV_PYTHON: "3.13"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - run: uv python install "${UV_PYTHON}"
+      - run: uv sync --all-extras --dev
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Bump the version and update the changelog
+        id: bump
+        run: |
+          set +e
+          uv run cz bump --yes --changelog
+          code=$?
+          set -e
+          # 21 is commitizen's "no commit worth a release since the last tag"
+          if [ "${code}" -eq 21 ]; then
+            echo "nothing to release"
+            exit 0
+          fi
+          [ "${code}" -eq 0 ] || exit "${code}"
+          version="$(uv run cz version --project)"
+          echo "version=${version}" >> "${GITHUB_OUTPUT}"
+          git push --atomic origin main "${version}"
+
+  publish:
+    needs: bump
+    if: needs.bump.outputs.version != ''
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      UV_PYTHON: "3.13"
+      VERSION: ${{ needs.bump.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.bump.outputs.version }}
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - run: uv python install "${UV_PYTHON}"
+      - run: uv sync --all-extras --dev
+      - name: Check that the built version matches the tag
+        run: |
+          uv build
+          test -f "dist/tiny_userpic-${VERSION}-py3-none-any.whl"
+      - run: uv publish --username __token__ --password ${{ secrets.PYPI_TOKEN }}
+      - name: Publish the github release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          uv run cz changelog "${VERSION}" --dry-run > notes.md
+          gh release create "${VERSION}" --title "${VERSION}" --notes-file notes.md dist/*

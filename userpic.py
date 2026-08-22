@@ -20,7 +20,7 @@ __all__ = [
     'make_userpic_svg_from_string',
 ]
 __title__ = 'tiny-userpic'
-__version__ = '0.0.0'
+__version__ = '0.4.0'
 __url__ = 'https://github.com/shpaker/tiny-userpic'
 __author__ = 'Aleksandr Shpak'
 __author_email__ = 'shpaker@gmail.com'
