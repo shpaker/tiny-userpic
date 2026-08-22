@@ -1,6 +1,6 @@
 [project]
 name = "tiny-userpic"
-version = "0.0.0"
+version = "1.0.0"
 description = "Oversimplified Github-like userpic (avatar) generator"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -12,19 +12,33 @@ authors = [
   { name = "Aleksandr Shpak", email = "shpaker@gmail.com" },
 ]
 classifiers = [
-  "Topic :: Software Development :: Libraries :: Python Modules",
-  "Development Status :: 4 - Beta",
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Multimedia :: Graphics",
+  "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 keywords = ["avatar", "userpic", "avatar-generator"]
 
 [project.urls]
 Homepage = "https://github.com/shpaker/tiny-userpic/"
 Repository = "https://github.com/shpaker/tiny-userpic/"
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version_provider = "pep621"
+version_files = [
+  "userpic.py:^__version__",
+]
+tag_format = "$version"
+annotated_tag = true
+update_changelog_on_bump = true
 
 [tool.hatch.build]
 include = ["userpic.py"]
@@ -35,6 +49,7 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
+    "commitizen>=4.18.0",
     "mypy>=1.13.0",
     "pytest>=8.3.5",
     "ruff>=0.8.2",
@@ -110,6 +125,19 @@ lint.select = [
   "RUF", # Ruff-specific rules
 ]
 
+lint.per-file-ignores."test_userpic.py" = [
+  "S101", # Use of `assert` detected
+  "S318", # the parsed XML is produced by the library itself, not by an untrusted source
+]
+
 [tool.ruff.format]
 quote-style = "single"
 docstring-code-format = true
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+
+[tool.pytest.ini_options]
+testpaths = ["test_userpic.py"]
+addopts = "-q"
