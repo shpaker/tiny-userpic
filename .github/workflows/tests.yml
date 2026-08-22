@@ -17,9 +17,9 @@ jobs:
     env:
       UV_PYTHON: "3.13"
     steps:
-      - uses: actions/checkout@v4
-      - uses: extractions/setup-just@v2
-      - uses: astral-sh/setup-uv@v4
+      - uses: actions/checkout@v7
+      - uses: extractions/setup-just@v4
+      - uses: astral-sh/setup-uv@v10.0.1
       - run: uv python install "${UV_PYTHON}"
       - run: uv sync --all-extras --dev
       - run: just lint
@@ -38,9 +38,9 @@ jobs:
     env:
       UV_PYTHON: ${{ matrix.python-version }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: extractions/setup-just@v2
-      - uses: astral-sh/setup-uv@v4
+      - uses: actions/checkout@v7
+      - uses: extractions/setup-just@v4
+      - uses: astral-sh/setup-uv@v10.0.1
       - run: uv python install "${UV_PYTHON}"
       - run: uv sync --all-extras --dev
       - run: just tests
