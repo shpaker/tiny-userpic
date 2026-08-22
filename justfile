@@ -22,6 +22,11 @@ examples:
     uv run python -c '
     from userpic import make_userpic_image, make_userpic_image_from_string
 
+    # The quickstart snippet from the readme, defaults only
+    make_userpic_image_from_string(
+        text="user@example.com"
+    ).save("examples/quickstart.png")
+
     # Basic black and white image, generated from a string
     make_userpic_image_from_string(
         text="user@example.com",

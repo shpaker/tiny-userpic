@@ -27,6 +27,8 @@ from userpic import make_userpic_image_from_string
 make_userpic_image_from_string(text="user@example.com").save("avatar.png")
 ```
 
+<img src="examples/quickstart.png" alt="avatar.png" width="160">
+
 ## API
 
 Four functions share the same parameters and differ only in the output format
