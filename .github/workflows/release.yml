@@ -18,9 +18,9 @@ jobs:
     env:
       UV_PYTHON: "3.13"
     steps:
-      - uses: actions/checkout@v4
-      - uses: extractions/setup-just@v2
-      - uses: astral-sh/setup-uv@v4
+      - uses: actions/checkout@v7
+      - uses: extractions/setup-just@v4
+      - uses: astral-sh/setup-uv@v10.0.1
       - run: uv python install "${UV_PYTHON}"
       - run: uv sync --all-extras --dev
       - run: just lint
@@ -40,10 +40,10 @@ jobs:
     env:
       UV_PYTHON: "3.13"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: astral-sh/setup-uv@v4
+      - uses: astral-sh/setup-uv@v10.0.1
       - run: uv python install "${UV_PYTHON}"
       - run: uv sync --all-extras --dev
       - name: Tag the release
@@ -70,11 +70,11 @@ jobs:
       UV_PYTHON: "3.13"
       VERSION: ${{ needs.tag.outputs.version }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.tag.outputs.version }}
           fetch-depth: 0
-      - uses: astral-sh/setup-uv@v4
+      - uses: astral-sh/setup-uv@v10.0.1
       - run: uv python install "${UV_PYTHON}"
       - run: uv sync --all-extras --dev
       - name: Build and check that the artifacts match the tag
