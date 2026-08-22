@@ -110,6 +110,19 @@ lint.select = [
   "RUF", # Ruff-specific rules
 ]
 
+lint.per-file-ignores."test_userpic.py" = [
+  "S101", # Use of `assert` detected
+  "S318", # the parsed XML is produced by the library itself, not by an untrusted source
+]
+
 [tool.ruff.format]
 quote-style = "single"
 docstring-code-format = true
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+
+[tool.pytest.ini_options]
+testpaths = ["test_userpic.py"]
+addopts = "-q"
