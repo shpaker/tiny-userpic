@@ -6,122 +6,100 @@ Oversimplified Github-like userpic (avatar) generator.
 [![PyPI](https://img.shields.io/pypi/v/tiny-userpic.svg)](https://pypi.python.org/pypi/tiny-userpic)
 [![PyPI](https://img.shields.io/pypi/dm/tiny-userpic.svg)](https://pypi.python.org/pypi/tiny-userpic)
 
-## Features
-
-- Generate unique avatars from text input (email, username, etc.)
-- Create both PIL Image and SVG outputs
-- Customizable size, colors, and padding
-- Deterministic output (same input always produces the same avatar)
+Turns any text — an email, a username, a UUID — into a symmetric identicon-style
+avatar, rendered as a PIL image or an SVG string. The same input always produces
+the same picture. The only dependency is Pillow.
 
 ## Installation
-
-Requires Python 3.10 or newer.
 
 ```bash
 pip install tiny-userpic
 ```
 
-The package installs a single top-level module named `userpic`.
+Requires Python 3.10 or newer. The package installs a single top-level module
+named `userpic`.
 
-## Usage
+## Quickstart
 
-The library provides several ways to generate avatars:
+```python
+from userpic import make_userpic_image_from_string
 
-### 1. Random Generation (Non-deterministic)
-Generate a unique random avatar each time.
+make_userpic_image_from_string(text="user@example.com").save("avatar.png")
+```
+
+## API
+
+Four functions share the same parameters and differ only in the output format
+and in where the pattern comes from:
+
+|                                  | returns     | pattern comes from       |
+|----------------------------------|-------------|--------------------------|
+| `make_userpic_image`             | `PIL.Image` | `seed` or system entropy |
+| `make_userpic_svg`               | `str` (SVG) | `seed` or system entropy |
+| `make_userpic_image_from_string` | `PIL.Image` | `text`                   |
+| `make_userpic_svg_from_string`   | `str` (SVG) | `text`                   |
+
+### Images
 
 ```python
 from userpic import make_userpic_image
 
-# Generate random avatar
-random_image = make_userpic_image(
+# a new random avatar on every call
+make_userpic_image(size=(7, 5)).save("random.png")
+
+# the same integer seed always gives the same avatar
+make_userpic_image(size=(7, 5), seed=42).save("seeded.png")
+
+# transparency: RGBA mode plus a fully transparent background
+make_userpic_image(
     size=(7, 5),
-    image_size=(300, 300),
-    background="white",
-    foreground="black"
-)
-random_image.save("random_avatar.png")
+    mode="RGBA",
+    background=(255, 255, 255, 0),
+    foreground=(0, 0, 128, 255),
+).save("transparent.png")
 ```
 
-### 2. With Custom Seed (Deterministic)
-Generate an avatar with a specific seed for reproducible results.
+### SVG
 
 ```python
-from userpic import make_userpic_image, make_userpic_svg
+from userpic import make_userpic_svg, make_userpic_svg_from_string
 
-# Generate avatar with specific seed
-seeded_image = make_userpic_image(
-    size=(7, 5),
-    image_size=(300, 300),
-    background="white",
-    foreground="black",
-    seed=42  # Any integer value will work as seed
-)
-seeded_image.save("seeded_avatar.png")
+svg = make_userpic_svg_from_string(text="user@example.com", size=(7, 5))
+with open("avatar.svg", "w") as file:
+    file.write(svg)
 
-# The same seed produces the same pattern in SVG
-seeded_svg = make_userpic_svg(size=(7, 5), image_size=(300, 300), seed=42)
+# seeded, without the background rectangle
+svg = make_userpic_svg(size=(7, 5), background=None, seed=42)
 ```
 
-### 3. From Text Input (Deterministic)
-Generate an avatar from any text input (email, username, etc.). The same input will always produce the same avatar.
+### Parameters
 
-```python
-from userpic import make_userpic_image_from_string, make_userpic_svg_from_string
+| name         | default      | description                                                                               |
+|--------------|--------------|-------------------------------------------------------------------------------------------|
+| `text`       | —            | input string for the `*_from_string` functions                                            |
+| `size`       | `(5, 5)`     | pattern size in cells as (width, height); the width must be at least 2                    |
+| `image_size` | `(300, 300)` | output size in pixels                                                                      |
+| `padding`    | `(20, 20)`   | blank border around the pattern, in pixels                                                 |
+| `background` | `"white"`    | color name, hex string or RGB/RGBA tuple; `None` omits the background rectangle in SVG    |
+| `foreground` | `"black"`    | same formats as `background`                                                               |
+| `mode`       | `"RGB"`      | PIL image mode, image functions only; use `"RGBA"` for transparency                        |
+| `seed`       | `None`       | any integer for reproducible output; omit for a random avatar                              |
 
-# Generate avatar from email
-email = "user@example.com"
-
-# As PNG image
-image = make_userpic_image_from_string(
-    text=email,           # Input text to generate avatar from
-    size=(7, 5),          # Pattern size (width, height)
-    image_size=(300, 300),  # Output image size in pixels
-    background="white",   # Background color (can be color name, hex or RGB tuple)
-    foreground="black"    # Foreground color (can be color name, hex or RGB tuple)
-)
-image.save("avatar.png")
-
-# As SVG
-svg = make_userpic_svg_from_string(
-    text=email,
-    size=(7, 5),
-    image_size=(300, 300),
-    background="white",
-    foreground="black"
-)
-with open("avatar.svg", "w") as f:
-    f.write(svg)
-```
-
-### Common Parameters
-All generation methods share these parameters:
-- `size`: Tuple of (width, height) for the pattern size in cells (default: `(5, 5)`, width must be at least 2)
-- `image_size`: Tuple of (width, height) for the output image size in pixels (default: `(300, 300)`)
-- `background`: Background color (color name, hex string, RGB or RGBA tuple; `None` for no background in SVG)
-- `foreground`: Foreground color (color name, hex string, RGB or RGBA tuple)
-- `padding`: Padding around the pattern in pixels (default: `(20, 20)`)
-- `mode`: Image mode for PNG output (default: `'RGB'`, can be `'RGBA'` for transparency)
-
-The pattern must fit into the image: `image_size` minus twice the `padding` has to leave at least one pixel per
-cell, otherwise a `ValueError` is raised.
+The pattern has to fit into the image: `image_size` minus twice the `padding`
+must leave at least one pixel per cell, otherwise a `ValueError` is raised.
 
 ## Examples
 
-### Basic (from string)
-![Basic example](examples/basic.png)
+| Basic                          | Colored                            | Transparent                                |
+|--------------------------------|------------------------------------|--------------------------------------------|
+| ![basic](examples/basic.png)   | ![colored](examples/colored.png)   | ![transparent](examples/transparent.png)   |
 
-### Colored
-![Colored example](examples/colored.png)
+| Small                          | Large                              | Seeded                                     |
+|--------------------------------|------------------------------------|--------------------------------------------|
+| ![small](examples/small.png)   | ![large](examples/large.png)       | ![seeded](examples/seeded.png)             |
 
-### Transparent
-![Transparent example](examples/transparent.png)
+The images are generated by `just examples`.
 
-### Small
-![Small example](examples/small.png)
+## License
 
-### Large
-![Large example](examples/large.png)
-
-### Seeded (deterministic)
-![Seeded example](examples/seeded.png)
+[MIT](LICENSE)
