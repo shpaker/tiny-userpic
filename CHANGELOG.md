@@ -6,6 +6,24 @@ Entries from 1.0.0 onwards are generated from [conventional commits](https://www
 by [commitizen](https://commitizen-tools.github.io/commitizen/); earlier releases predate that
 convention and are summarised by hand.
 
+## 1.0.0 (2026-08-22)
+
+### BREAKING CHANGE
+
+- the padding default changed from (0, 0) to (20, 20) in
+make_userpic_svg and in both *_from_string functions, make_userpic was removed,
+and degenerate size/image_size/padding values now raise ValueError instead of
+hanging or returning a broken image. The rendered pixels and the SVG markup
+differ from 0.4.0, although the pattern for a given seed or string is unchanged.
+
+### Feat
+
+- declare the api stable and automate releases
+
+### Fix
+
+- pattern rendering, input validation and svg output
+
 ## 0.4.0 (2025-03-24)
 
 ### Feat
