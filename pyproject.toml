@@ -12,13 +12,17 @@ authors = [
   { name = "Aleksandr Shpak", email = "shpaker@gmail.com" },
 ]
 classifiers = [
-  "Topic :: Software Development :: Libraries :: Python Modules",
   "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Multimedia :: Graphics",
+  "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 keywords = ["avatar", "userpic", "avatar-generator"]
 
